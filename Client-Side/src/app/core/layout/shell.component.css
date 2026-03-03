@@ -9,8 +9,8 @@
   top: 0;
   z-index: 10;
   backdrop-filter: blur(16px);
-  background: rgba(7, 11, 20, 0.7);
-  border-bottom: 1px solid rgba(31, 42, 68, 0.6);
+  background: var(--header-bg);
+  border-bottom: 1px solid var(--header-border);
 }
 
 .shell__nav {
@@ -60,14 +60,21 @@
   gap: var(--space-3);
 }
 
+.theme-toggle {
+  border: 1px solid var(--border);
+  background: transparent;
+  color: var(--text-2);
+  font-size: 0.85rem;
+}
+
 .shell__main {
   flex: 1;
 }
 
 .shell__footer {
   padding: var(--space-7) 0;
-  border-top: 1px solid rgba(31, 42, 68, 0.6);
-  background: #070b14;
+  border-top: 1px solid var(--header-border);
+  background: var(--footer-bg);
 }
 
 .footer-grid {

@@ -13,6 +13,9 @@
       </nav>
 
       <div class="actions" *ngIf="user$ | async as user; else loggedOut">
+        <button class="btn btn-ghost theme-toggle" type="button" (click)="toggleTheme()">
+          <span *ngIf="theme$ | async as theme">{{ theme === 'dark' ? 'Light Mode' : 'Dark Mode' }}</span>
+        </button>
         <span class="pill">Hi, {{ user.userName }}</span>
         <a class="btn btn-secondary" routerLink="/stocks/new">Add Stock</a>
         <button class="btn btn-ghost" type="button" (click)="logout()">Logout</button>
@@ -20,6 +23,9 @@
 
       <ng-template #loggedOut>
         <div class="actions">
+          <button class="btn btn-ghost theme-toggle" type="button" (click)="toggleTheme()">
+            <span *ngIf="theme$ | async as theme">{{ theme === 'dark' ? 'Light Mode' : 'Dark Mode' }}</span>
+          </button>
           <a class="btn btn-secondary" routerLink="/auth/login">Login</a>
           <a class="btn" routerLink="/auth/register">Create Account</a>
         </div>
