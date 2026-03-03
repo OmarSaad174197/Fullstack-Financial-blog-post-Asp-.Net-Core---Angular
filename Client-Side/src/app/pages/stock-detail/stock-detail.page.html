@@ -1,0 +1,80 @@
+<section class="section" *ngIf="!isLoading && stock; else loading">
+  <div class="container">
+    <div class="detail-header">
+      <div>
+        <span class="chip">{{ stock.symbol }}</span>
+        <h1 class="section-title">{{ stock.companyName }}</h1>
+        <p class="muted">{{ stock.industry }} · Market Cap {{ stock.marketCapacity | number }}</p>
+      </div>
+      <div class="detail-actions" *ngIf="isAuthenticated">
+        <a class="btn btn-secondary" [routerLink]="['/stocks', stock.id, 'edit']">Edit</a>
+        <button class="btn btn-ghost" type="button" (click)="deleteStock()">Delete</button>
+      </div>
+    </div>
+
+    <div class="grid grid-3">
+      <div class="card">
+        <p class="muted">Purchase</p>
+        <h3>{{ stock.purchase | number:'1.0-2' }}</h3>
+      </div>
+      <div class="card">
+        <p class="muted">Last Dividend</p>
+        <h3>{{ stock.lastDiv | number:'1.0-2' }}</h3>
+      </div>
+      <div class="card">
+        <p class="muted">Comments</p>
+        <h3>{{ stock.comments?.length ?? 0 }}</h3>
+      </div>
+    </div>
+
+    <div class="divider"></div>
+
+    <div class="grid grid-2">
+      <div class="card">
+        <h3>Community Comments</h3>
+        <div *ngIf="!stock.comments?.length" class="muted">No comments yet.</div>
+        <div class="comment" *ngFor="let comment of stock.comments">
+          <div class="comment__header">
+            <div>
+              <p class="comment__title">{{ comment.title }}</p>
+              <p class="muted">by {{ comment.createdBy }} · {{ comment.createdOn | date:'medium' }}</p>
+            </div>
+            <div class="comment__actions" *ngIf="isAuthenticated">
+              <button class="btn btn-ghost" type="button" (click)="startEdit(comment)">Edit</button>
+              <button class="btn btn-ghost" type="button" (click)="deleteComment(comment.id)">Delete</button>
+            </div>
+          </div>
+          <p>{{ comment.content }}</p>
+        </div>
+      </div>
+
+      <div class="card">
+        <h3>{{ editCommentId ? 'Edit Comment' : 'Add Comment' }}</h3>
+        <p class="muted" *ngIf="!isAuthenticated">Login to add comments.</p>
+        <form class="form" [formGroup]="commentForm" (ngSubmit)="submitComment()" *ngIf="isAuthenticated">
+          <div>
+            <label for="title">Title</label>
+            <input id="title" formControlName="title" placeholder="Quick insight">
+          </div>
+          <div>
+            <label for="content">Comment</label>
+            <textarea id="content" formControlName="content" placeholder="Share your view"></textarea>
+          </div>
+          <div class="form-actions">
+            <button class="btn" type="submit">{{ editCommentId ? 'Update' : 'Post' }}</button>
+            <button class="btn btn-secondary" type="button" (click)="cancelEdit()" *ngIf="editCommentId">
+              Cancel
+            </button>
+          </div>
+        </form>
+        <p class="muted" *ngIf="error">{{ error }}</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<ng-template #loading>
+  <section class="section">
+    <div class="container card">Loading stock details...</div>
+  </section>
+</ng-template>

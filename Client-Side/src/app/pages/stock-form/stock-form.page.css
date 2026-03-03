@@ -1,0 +1,7 @@
+.form {
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+}
+
+.form-actions {
+  grid-column: 1 / -1;
+}

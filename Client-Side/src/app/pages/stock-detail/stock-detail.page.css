@@ -1,0 +1,35 @@
+.detail-header {
+  display: flex;
+  justify-content: space-between;
+  gap: var(--space-4);
+  flex-wrap: wrap;
+  align-items: center;
+  margin-bottom: var(--space-5);
+}
+
+.detail-actions {
+  display: flex;
+  gap: var(--space-3);
+}
+
+.comment {
+  border-top: 1px solid rgba(148, 163, 184, 0.15);
+  padding-top: var(--space-3);
+  margin-top: var(--space-3);
+}
+
+.comment__header {
+  display: flex;
+  justify-content: space-between;
+  gap: var(--space-3);
+}
+
+.comment__title {
+  margin: 0;
+  font-family: var(--font-display);
+}
+
+.comment__actions {
+  display: flex;
+  gap: var(--space-2);
+}
