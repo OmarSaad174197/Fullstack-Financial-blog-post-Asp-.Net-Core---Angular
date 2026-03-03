@@ -1,0 +1,68 @@
+<section class="section">
+  <div class="container">
+    <h1 class="section-title">Stock Explorer</h1>
+    <p class="muted">Filter by symbol or company, and sort by symbol.</p>
+
+    <form class="card form filters" [formGroup]="filterForm" (ngSubmit)="applyFilters()">
+      <div>
+        <label for="symbol">Symbol</label>
+        <input id="symbol" formControlName="symbol" placeholder="AAPL">
+      </div>
+      <div>
+        <label for="companyName">Company</label>
+        <input id="companyName" formControlName="companyName" placeholder="FinTech Labs">
+      </div>
+      <div>
+        <label for="sortBy">Sort By</label>
+        <select id="sortBy" formControlName="sortBy">
+          <option value="Symbol">Symbol</option>
+        </select>
+      </div>
+      <div>
+        <label for="pageSize">Page Size</label>
+        <select id="pageSize" formControlName="pageSize">
+          <option [ngValue]="6">6</option>
+          <option [ngValue]="10">10</option>
+          <option [ngValue]="20">20</option>
+        </select>
+      </div>
+      <div class="toggle">
+        <label>
+          <input type="checkbox" formControlName="isDescinding">
+          Descending
+        </label>
+      </div>
+      <div class="form-actions">
+        <button class="btn" type="submit">Apply</button>
+      </div>
+    </form>
+
+    <div class="divider"></div>
+
+    <div *ngIf="isLoading" class="card">Loading stocks...</div>
+    <div *ngIf="error" class="card">{{ error }}</div>
+
+    <div class="grid grid-3" *ngIf="!isLoading && stocks.length">
+      <article class="card stock-card" *ngFor="let stock of stocks">
+        <div class="stock-card__header">
+          <div>
+            <h3>{{ stock.symbol }}</h3>
+            <p class="muted">{{ stock.companyName }}</p>
+          </div>
+          <span class="pill">{{ stock.industry }}</span>
+        </div>
+        <p class="muted">Purchase: {{ stock.purchase | number:'1.0-2' }}</p>
+        <p class="muted">Dividend: {{ stock.lastDiv | number:'1.0-2' }}</p>
+        <p class="muted">Market Cap: {{ stock.marketCapacity | number }}</p>
+        <div class="divider"></div>
+        <a class="btn btn-secondary" [routerLink]="['/stocks', stock.id]">View Details</a>
+      </article>
+    </div>
+
+    <div class="pagination">
+      <button class="btn btn-ghost" type="button" (click)="prevPage()">Prev</button>
+      <span class="pill">Page {{ pageNumber }}</span>
+      <button class="btn btn-ghost" type="button" (click)="nextPage()">Next</button>
+    </div>
+  </div>
+</section>

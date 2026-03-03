@@ -1,0 +1,78 @@
+<section class="hero">
+  <div class="container hero__grid">
+    <div>
+      <span class="chip">FinTech Insights</span>
+      <h1 class="hero__title">Trade ideas, portfolios, and market chatter in one place.</h1>
+      <p class="hero__subtitle">
+        Explore trending fintech stocks, manage your portfolio, and join the discussion with real-time comments.
+      </p>
+      <div class="hero__actions">
+        <a class="btn" routerLink="/stocks">Explore Stocks</a>
+        <a class="btn btn-secondary" routerLink="/auth/register">Create Account</a>
+      </div>
+    </div>
+    <div class="hero__panel card">
+      <p class="hero__panel-title">Market Pulse</p>
+      <div class="pulse-grid">
+        <div>
+          <p class="muted">Active Symbols</p>
+          <p class="pulse-value">120+</p>
+        </div>
+        <div>
+          <p class="muted">Avg. Dividend</p>
+          <p class="pulse-value">4.2%</p>
+        </div>
+        <div>
+          <p class="muted">Community Notes</p>
+          <p class="pulse-value">2.4k</p>
+        </div>
+      </div>
+      <p class="muted">All metrics are powered by your API endpoints.</p>
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container">
+    <div class="section-head">
+      <h2 class="section-title">Featured Stocks</h2>
+      <a class="btn btn-ghost" routerLink="/stocks">View All</a>
+    </div>
+
+    <div *ngIf="isLoading" class="card">Loading featured stocks...</div>
+    <div *ngIf="error" class="card">{{ error }}</div>
+
+    <div class="grid grid-3" *ngIf="!isLoading && featuredStocks.length">
+      <article class="card stock-card" *ngFor="let stock of featuredStocks">
+        <div class="stock-card__header">
+          <div>
+            <h3>{{ stock.symbol }}</h3>
+            <p class="muted">{{ stock.companyName }}</p>
+          </div>
+          <span class="badge badge-success">{{ stock.industry }}</span>
+        </div>
+        <p class="muted">Purchase: {{ stock.purchase | number:'1.0-2' }}</p>
+        <p class="muted">Dividend: {{ stock.lastDiv | number:'1.0-2' }}</p>
+        <div class="divider"></div>
+        <a class="btn btn-secondary" [routerLink]="['/stocks', stock.id]">Details</a>
+      </article>
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container grid grid-2">
+    <div class="card">
+      <h3>Portfolio Ready</h3>
+      <p class="muted">
+        Sync your portfolio and keep track of symbols you care about with a single click.
+      </p>
+    </div>
+    <div class="card">
+      <h3>Community Commentary</h3>
+      <p class="muted">
+        Each stock is linked to comments so your team can build a shared view.
+      </p>
+    </div>
+  </div>
+</section>
