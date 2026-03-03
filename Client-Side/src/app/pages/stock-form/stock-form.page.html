@@ -1,7 +1,7 @@
 <section class="section">
   <div class="container">
     <h1 class="section-title">{{ isEdit ? 'Edit Stock' : 'Add Stock' }}</h1>
-    <p class="muted">This form maps directly to the Stock API DTOs.</p>
+    <p class="muted">Use this form to create or update a stock profile.</p>
 
     <form class="card form" [formGroup]="stockForm" (ngSubmit)="submit()">
       <div>

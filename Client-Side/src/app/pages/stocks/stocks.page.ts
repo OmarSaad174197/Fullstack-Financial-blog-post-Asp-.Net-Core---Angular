@@ -52,7 +52,7 @@ export class StocksPageComponent implements OnInit {
         this.isLoading = false;
       },
       error: () => {
-        this.error = 'Unable to load stocks from the API.';
+        this.error = 'Unable to load stocks right now.';
         this.isLoading = false;
       }
     });
