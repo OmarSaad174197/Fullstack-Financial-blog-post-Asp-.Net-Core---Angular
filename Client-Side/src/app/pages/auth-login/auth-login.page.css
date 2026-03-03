@@ -1,0 +1,16 @@
+.auth__grid {
+  display: grid;
+  gap: var(--space-5);
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  align-items: start;
+}
+
+.auth__panel {
+  display: grid;
+  gap: var(--space-3);
+}
+
+.auth__aside {
+  display: grid;
+  gap: var(--space-3);
+}

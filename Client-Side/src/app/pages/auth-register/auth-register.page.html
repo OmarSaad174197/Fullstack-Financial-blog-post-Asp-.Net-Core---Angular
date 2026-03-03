@@ -1,0 +1,43 @@
+<section class="section auth">
+  <div class="container auth__grid">
+    <div class="card auth__panel">
+      <h1 class="section-title">Create Your Account</h1>
+      <p class="muted">Join the fintech community with a secure JWT login.</p>
+
+      <form class="form" [formGroup]="registerForm" (ngSubmit)="submit()">
+        <div>
+          <label for="userName">Username</label>
+          <input id="userName" formControlName="userName" placeholder="fintech_pro">
+        </div>
+        <div>
+          <label for="email">Email</label>
+          <input id="email" type="email" formControlName="email" placeholder="name@company.com">
+        </div>
+        <div>
+          <label for="password">Password</label>
+          <input id="password" type="password" formControlName="password" placeholder="••••••••">
+        </div>
+        <div class="form-actions">
+          <button class="btn" type="submit" [disabled]="isLoading">Register</button>
+          <span class="muted" *ngIf="isLoading">Creating account...</span>
+        </div>
+        <p class="muted" *ngIf="error">{{ error }}</p>
+      </form>
+
+      <p class="muted">
+        Already have an account? <a routerLink="/auth/login">Login</a>.
+      </p>
+    </div>
+
+    <div class="auth__aside">
+      <div class="card">
+        <h3>Track portfolios</h3>
+        <p class="muted">Build a watchlist that follows your trading thesis.</p>
+      </div>
+      <div class="card">
+        <h3>Share insights</h3>
+        <p class="muted">Post comments directly on stock pages.</p>
+      </div>
+    </div>
+  </div>
+</section>
