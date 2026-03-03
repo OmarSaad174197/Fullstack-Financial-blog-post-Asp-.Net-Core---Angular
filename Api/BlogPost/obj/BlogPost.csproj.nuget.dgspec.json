@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "F:\\Projects\\FintechBlogPost\\FinTech-BlogPost\\BlogPost\\BlogPost.csproj": {}
+    "F:\\Projects\\FinTech-BlogPost\\Api\\BlogPost\\BlogPost.csproj": {}
   },
   "projects": {
-    "F:\\Projects\\FintechBlogPost\\FinTech-BlogPost\\BlogPost\\BlogPost.csproj": {
+    "F:\\Projects\\FinTech-BlogPost\\Api\\BlogPost\\BlogPost.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "F:\\Projects\\FintechBlogPost\\FinTech-BlogPost\\BlogPost\\BlogPost.csproj",
+        "projectUniqueName": "F:\\Projects\\FinTech-BlogPost\\Api\\BlogPost\\BlogPost.csproj",
         "projectName": "BlogPost",
-        "projectPath": "F:\\Projects\\FintechBlogPost\\FinTech-BlogPost\\BlogPost\\BlogPost.csproj",
+        "projectPath": "F:\\Projects\\FinTech-BlogPost\\Api\\BlogPost\\BlogPost.csproj",
         "packagesPath": "C:\\Users\\Me\\.nuget\\packages\\",
-        "outputPath": "F:\\Projects\\FintechBlogPost\\FinTech-BlogPost\\BlogPost\\obj\\",
+        "outputPath": "F:\\Projects\\FinTech-BlogPost\\Api\\BlogPost\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
