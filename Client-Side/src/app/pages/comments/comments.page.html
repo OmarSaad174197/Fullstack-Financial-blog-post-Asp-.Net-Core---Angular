@@ -1,0 +1,100 @@
+<section class="section">
+  <div class="container">
+    <div class="section-head">
+      <div>
+        <h1 class="section-title">Comments Hub</h1>
+        <p class="muted">Manage community commentary across all stocks.</p>
+      </div>
+      <button class="btn btn-secondary" type="button" (click)="loadComments()">Refresh</button>
+    </div>
+
+    <div class="grid grid-2">
+      <div class="card">
+        <h3>All Comments</h3>
+        <p class="muted">Browse the latest discussion updates.</p>
+
+        <div *ngIf="isLoading" class="muted">Loading comments...</div>
+        <div *ngIf="error" class="muted">{{ error }}</div>
+
+        <div class="comment-list" *ngIf="!isLoading && comments.length">
+          <button
+            class="comment-row"
+            type="button"
+            *ngFor="let comment of comments"
+            (click)="selectComment(comment)"
+          >
+            <div>
+              <p class="comment-title">{{ comment.title }}</p>
+              <p class="muted">#{{ comment.id }} · {{ comment.createdBy }}</p>
+            </div>
+            <span class="pill">Stock {{ comment.stockId }}</span>
+          </button>
+        </div>
+
+        <div *ngIf="!isLoading && !comments.length" class="muted">
+          No comments yet.
+        </div>
+      </div>
+
+      <div class="grid">
+        <div class="card">
+          <h3>Find Comment</h3>
+          <form class="form" [formGroup]="findForm" (ngSubmit)="findById()">
+            <div>
+              <label for="commentId">Comment ID</label>
+              <input id="commentId" type="number" formControlName="id" placeholder="123">
+            </div>
+            <div class="form-actions">
+              <button class="btn" type="submit">Find</button>
+              <button class="btn btn-ghost" type="button" (click)="clearSelection()">Clear</button>
+            </div>
+          </form>
+        </div>
+
+        <div class="card">
+          <h3>Create Comment</h3>
+          <form class="form" [formGroup]="createForm" (ngSubmit)="createComment()">
+            <div>
+              <label for="stockId">Stock ID</label>
+              <input id="stockId" type="number" formControlName="stockId" placeholder="1">
+            </div>
+            <div>
+              <label for="createTitle">Title</label>
+              <input id="createTitle" formControlName="title" placeholder="Quick insight">
+            </div>
+            <div>
+              <label for="createContent">Comment</label>
+              <textarea id="createContent" formControlName="content"></textarea>
+            </div>
+            <div class="form-actions">
+              <button class="btn" type="submit">Create</button>
+            </div>
+          </form>
+        </div>
+
+        <div class="card">
+          <h3>Update / Delete</h3>
+          <p class="muted" *ngIf="!selected">Select a comment to edit.</p>
+
+          <form class="form" *ngIf="selected" [formGroup]="updateForm" (ngSubmit)="updateComment()">
+            <div class="pill">Editing #{{ selected.id }}</div>
+            <div>
+              <label for="editTitle">Title</label>
+              <input id="editTitle" formControlName="title">
+            </div>
+            <div>
+              <label for="editContent">Comment</label>
+              <textarea id="editContent" formControlName="content"></textarea>
+            </div>
+            <div class="form-actions">
+              <button class="btn" type="submit">Update</button>
+              <button class="btn btn-ghost" type="button" (click)="deleteComment()">Delete</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+
+    <p class="muted" *ngIf="actionMessage">{{ actionMessage }}</p>
+  </div>
+</section>

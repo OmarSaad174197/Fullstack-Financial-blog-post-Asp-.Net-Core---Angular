@@ -5,6 +5,7 @@ import { StocksPageComponent } from './pages/stocks/stocks.page';
 import { StockDetailPageComponent } from './pages/stock-detail/stock-detail.page';
 import { StockFormPageComponent } from './pages/stock-form/stock-form.page';
 import { PortfolioPageComponent } from './pages/portfolio/portfolio.page';
+import { CommentsPageComponent } from './pages/comments/comments.page';
 import { AuthLoginPageComponent } from './pages/auth-login/auth-login.page';
 import { AuthRegisterPageComponent } from './pages/auth-register/auth-register.page';
 import { authGuard } from './guards/auth.guard';
@@ -19,6 +20,7 @@ export const routes: Routes = [
       { path: 'stocks/new', component: StockFormPageComponent, canActivate: [authGuard] },
       { path: 'stocks/:id/edit', component: StockFormPageComponent, canActivate: [authGuard] },
       { path: 'stocks/:id', component: StockDetailPageComponent },
+      { path: 'comments', component: CommentsPageComponent },
       { path: 'portfolio', component: PortfolioPageComponent, canActivate: [authGuard] }
     ]
   },
