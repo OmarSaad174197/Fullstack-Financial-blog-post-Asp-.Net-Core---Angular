@@ -1,1 +1,7 @@
 .idea/
+.vs/
+bin/
+obj/
+**/bin/
+**/obj/
+*.csproj.user
