@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { StockService } from '../../services/stock.service';
 
@@ -17,21 +17,23 @@ export class StockFormPageComponent implements OnInit {
   error = '';
   stockId: number | null = null;
 
-  stockForm = this.fb.group({
-    symbol: ['', [Validators.required]],
-    companyName: ['', [Validators.required]],
-    purchase: [0, [Validators.required, Validators.min(0)]],
-    lastDiv: [0, [Validators.required, Validators.min(0)]],
-    industry: ['', [Validators.required]],
-    marketCapacity: [0, [Validators.required, Validators.min(0)]]
-  });
+  stockForm: FormGroup;
 
   constructor(
     private readonly fb: FormBuilder,
     private readonly route: ActivatedRoute,
     private readonly router: Router,
     private readonly stockService: StockService
-  ) {}
+  ) {
+    this.stockForm = this.fb.group({
+      symbol: ['', [Validators.required]],
+      companyName: ['', [Validators.required]],
+      purchase: [0, [Validators.required, Validators.min(0)]],
+      lastDiv: [0, [Validators.required, Validators.min(0)]],
+      industry: ['', [Validators.required]],
+      marketCapacity: [0, [Validators.required, Validators.min(0)]]
+    });
+  }
 
   ngOnInit(): void {
     const id = Number(this.route.snapshot.paramMap.get('id'));

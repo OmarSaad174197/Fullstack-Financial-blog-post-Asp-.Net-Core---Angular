@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormBuilder, ReactiveFormsModule } from '@angular/forms';
+import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { RouterLink } from '@angular/router';
 import { StockService } from '../../services/stock.service';
 import { StockDto, StockQuery } from '../../models/stock.model';
@@ -18,15 +18,17 @@ export class StocksPageComponent implements OnInit {
   error = '';
   pageNumber = 1;
 
-  filterForm = this.fb.group({
-    symbol: [''],
-    companyName: [''],
-    sortBy: ['Symbol'],
-    isDescinding: [false],
-    pageSize: [10]
-  });
+  filterForm: FormGroup;
 
-  constructor(private readonly fb: FormBuilder, private readonly stockService: StockService) {}
+  constructor(private readonly fb: FormBuilder, private readonly stockService: StockService) {
+    this.filterForm = this.fb.group({
+      symbol: [''],
+      companyName: [''],
+      sortBy: ['Symbol'],
+      isDescinding: [false],
+      pageSize: [10]
+    });
+  }
 
   ngOnInit(): void {
     this.loadStocks();

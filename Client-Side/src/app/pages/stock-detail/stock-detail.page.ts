@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule, DatePipe } from '@angular/common';
-import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { StockService } from '../../services/stock.service';
 import { CommentService } from '../../services/comment.service';
@@ -21,10 +21,7 @@ export class StockDetailPageComponent implements OnInit {
   error = '';
   editCommentId: number | null = null;
 
-  commentForm = this.fb.group({
-    title: ['', [Validators.required]],
-    content: ['', [Validators.required, Validators.minLength(5)]]
-  });
+  commentForm: FormGroup;
 
   constructor(
     private readonly fb: FormBuilder,
@@ -33,7 +30,12 @@ export class StockDetailPageComponent implements OnInit {
     private readonly stockService: StockService,
     private readonly commentService: CommentService,
     private readonly authService: AuthService
-  ) {}
+  ) {
+    this.commentForm = this.fb.group({
+      title: ['', [Validators.required]],
+      content: ['', [Validators.required, Validators.minLength(5)]]
+    });
+  }
 
   get isAuthenticated(): boolean {
     return this.authService.isAuthenticated();

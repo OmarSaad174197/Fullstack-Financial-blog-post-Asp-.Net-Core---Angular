@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { PortfolioService } from '../../services/portfolio.service';
 import { PortfolioItem } from '../../models/portfolio.model';
 
@@ -16,11 +16,13 @@ export class PortfolioPageComponent implements OnInit {
   isLoading = true;
   error = '';
 
-  addForm = this.fb.group({
-    symbol: ['', [Validators.required]]
-  });
+  addForm: FormGroup;
 
-  constructor(private readonly fb: FormBuilder, private readonly portfolioService: PortfolioService) {}
+  constructor(private readonly fb: FormBuilder, private readonly portfolioService: PortfolioService) {
+    this.addForm = this.fb.group({
+      symbol: ['', [Validators.required]]
+    });
+  }
 
   ngOnInit(): void {
     this.loadPortfolio();

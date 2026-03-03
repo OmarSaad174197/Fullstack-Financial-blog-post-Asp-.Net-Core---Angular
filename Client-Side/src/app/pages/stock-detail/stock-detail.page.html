@@ -23,7 +23,7 @@
       </div>
       <div class="card">
         <p class="muted">Comments</p>
-        <h3>{{ stock.comments?.length ?? 0 }}</h3>
+        <h3>{{ stock.comments.length }}</h3>
       </div>
     </div>
 
@@ -32,7 +32,7 @@
     <div class="grid grid-2">
       <div class="card">
         <h3>Community Comments</h3>
-        <div *ngIf="!stock.comments?.length" class="muted">No comments yet.</div>
+        <div *ngIf="!stock.comments.length" class="muted">No comments yet.</div>
         <div class="comment" *ngFor="let comment of stock.comments">
           <div class="comment__header">
             <div>
