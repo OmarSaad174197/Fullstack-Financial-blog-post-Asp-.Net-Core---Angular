@@ -43,6 +43,10 @@
             <div>
               <label for="commentId">Comment ID</label>
               <input id="commentId" type="number" formControlName="id" placeholder="123">
+              <div class="field-error" *ngIf="findForm.get('id')?.touched && findForm.get('id')?.invalid">
+                <span *ngIf="findForm.get('id')?.errors?.['required']">Comment ID is required.</span>
+                <span *ngIf="findForm.get('id')?.errors?.['min']">Comment ID must be at least 1.</span>
+              </div>
             </div>
             <div class="form-actions">
               <button class="btn" type="submit">Find</button>
@@ -57,14 +61,28 @@
             <div>
               <label for="stockId">Stock ID</label>
               <input id="stockId" type="number" formControlName="stockId" placeholder="1">
+              <div class="field-error" *ngIf="createForm.get('stockId')?.touched && createForm.get('stockId')?.invalid">
+                <span *ngIf="createForm.get('stockId')?.errors?.['required']">Stock ID is required.</span>
+                <span *ngIf="createForm.get('stockId')?.errors?.['min']">Stock ID must be at least 1.</span>
+              </div>
             </div>
             <div>
               <label for="createTitle">Title</label>
               <input id="createTitle" formControlName="title" placeholder="Quick insight">
+              <div class="field-error" *ngIf="createForm.get('title')?.touched && createForm.get('title')?.invalid">
+                <span *ngIf="createForm.get('title')?.errors?.['required']">Title is required.</span>
+                <span *ngIf="createForm.get('title')?.errors?.['minlength']">Minimum 5 characters.</span>
+                <span *ngIf="createForm.get('title')?.errors?.['maxlength']">Maximum 20 characters.</span>
+              </div>
             </div>
             <div>
               <label for="createContent">Comment</label>
               <textarea id="createContent" formControlName="content"></textarea>
+              <div class="field-error" *ngIf="createForm.get('content')?.touched && createForm.get('content')?.invalid">
+                <span *ngIf="createForm.get('content')?.errors?.['required']">Content is required.</span>
+                <span *ngIf="createForm.get('content')?.errors?.['minlength']">Minimum 5 characters.</span>
+                <span *ngIf="createForm.get('content')?.errors?.['maxlength']">Maximum 20 characters.</span>
+              </div>
             </div>
             <div class="form-actions">
               <button class="btn" type="submit">Create</button>
@@ -81,10 +99,20 @@
             <div>
               <label for="editTitle">Title</label>
               <input id="editTitle" formControlName="title">
+              <div class="field-error" *ngIf="updateForm.get('title')?.touched && updateForm.get('title')?.invalid">
+                <span *ngIf="updateForm.get('title')?.errors?.['required']">Title is required.</span>
+                <span *ngIf="updateForm.get('title')?.errors?.['minlength']">Minimum 5 characters.</span>
+                <span *ngIf="updateForm.get('title')?.errors?.['maxlength']">Maximum 20 characters.</span>
+              </div>
             </div>
             <div>
               <label for="editContent">Comment</label>
               <textarea id="editContent" formControlName="content"></textarea>
+              <div class="field-error" *ngIf="updateForm.get('content')?.touched && updateForm.get('content')?.invalid">
+                <span *ngIf="updateForm.get('content')?.errors?.['required']">Content is required.</span>
+                <span *ngIf="updateForm.get('content')?.errors?.['minlength']">Minimum 5 characters.</span>
+                <span *ngIf="updateForm.get('content')?.errors?.['maxlength']">Maximum 20 characters.</span>
+              </div>
             </div>
             <div class="form-actions">
               <button class="btn" type="submit">Update</button>

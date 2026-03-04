@@ -32,8 +32,8 @@ export class StockDetailPageComponent implements OnInit {
     private readonly authService: AuthService
   ) {
     this.commentForm = this.fb.group({
-      title: ['', [Validators.required]],
-      content: ['', [Validators.required, Validators.minLength(5)]]
+      title: ['', [Validators.required, Validators.minLength(5), Validators.maxLength(20)]],
+      content: ['', [Validators.required, Validators.minLength(5), Validators.maxLength(20)]]
     });
   }
 
@@ -79,7 +79,12 @@ export class StockDetailPageComponent implements OnInit {
   }
 
   submitComment(): void {
-    if (!this.stock || this.commentForm.invalid) return;
+    if (!this.stock || this.commentForm.invalid) {
+      this.error = 'Please fix the highlighted comment fields before saving.';
+      this.commentForm.markAllAsTouched();
+      return;
+    }
+    this.error = '';
     const payload = {
       title: this.commentForm.value.title ?? '',
       content: this.commentForm.value.content ?? ''

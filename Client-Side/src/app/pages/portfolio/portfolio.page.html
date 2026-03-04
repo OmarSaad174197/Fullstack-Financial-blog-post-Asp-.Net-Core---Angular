@@ -7,6 +7,10 @@
       <div>
         <label for="symbol">Add Symbol</label>
         <input id="symbol" formControlName="symbol" placeholder="TSLA">
+        <div class="field-error" *ngIf="addForm.get('symbol')?.touched && addForm.get('symbol')?.invalid">
+          <span *ngIf="addForm.get('symbol')?.errors?.['required']">Symbol is required.</span>
+          <span *ngIf="addForm.get('symbol')?.errors?.['maxlength']">Max 10 characters.</span>
+        </div>
       </div>
       <div class="form-actions">
         <button class="btn" type="submit">Add</button>
