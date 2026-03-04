@@ -63,7 +63,10 @@ public class StockRepository : IStockRepository
     public async Task<Stock?> GetByIdAsync(int id)
     {
         // I used include to include the comments entity as the relation between stock and comment is 1-M
-        return await _context.Stocks.Include(c => c.Comments).FirstOrDefaultAsync(x=>x.Id == id);
+        return await _context.Stocks
+            .Include(c => c.Comments)
+            .ThenInclude(c => c.AppUser)
+            .FirstOrDefaultAsync(x => x.Id == id);
     }
     public async Task<Stock> CreateAsync(Stock stockModel)
     {
