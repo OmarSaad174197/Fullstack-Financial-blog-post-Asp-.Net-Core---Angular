@@ -81,6 +81,7 @@ public class StockRepository : IStockRepository
         {
             return null;
         }
+        existingStock.CompanyName = stockDto.CompanyName;
         existingStock.Industry = stockDto.Industry;
         existingStock.LastDiv = stockDto.LastDiv;
         existingStock.MarketCapacity = stockDto.MarketCapacity;
