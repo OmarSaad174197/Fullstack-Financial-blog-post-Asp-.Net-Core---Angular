@@ -50,6 +50,16 @@ builder.Services.AddDbContext<AppDbContext>(options =>
 {
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
 });
+// Configure CORS for Angular dev server
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("Client", policy =>
+    {
+        policy.WithOrigins("http://localhost:4200", "https://localhost:4200")
+            .AllowAnyHeader()
+            .AllowAnyMethod();
+    });
+});
 // Configure Identity
 builder.Services.AddIdentity<AppUser, IdentityRole>(options =>
 {
@@ -107,6 +117,7 @@ if (app.Environment.IsDevelopment())
 }
 // Middlewares
 app.UseHttpsRedirection();
+app.UseCors("Client");
 app.UseAuthentication();
 app.UseAuthorization();
 app.MapControllers();
