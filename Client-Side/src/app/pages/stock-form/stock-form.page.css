@@ -5,3 +5,11 @@
 .form-actions {
   grid-column: 1 / -1;
 }
+
+.field-error {
+  color: var(--danger);
+  font-size: 0.85rem;
+  margin-top: 0.35rem;
+  display: grid;
+  gap: 0.2rem;
+}

@@ -7,26 +7,53 @@
       <div>
         <label for="symbol">Symbol</label>
         <input id="symbol" formControlName="symbol" placeholder="FTEK">
+        <div class="field-error" *ngIf="stockForm.get('symbol')?.touched && stockForm.get('symbol')?.invalid">
+          <span *ngIf="stockForm.get('symbol')?.errors?.['required']">Symbol is required.</span>
+          <span *ngIf="stockForm.get('symbol')?.errors?.['maxlength']">Max 10 characters.</span>
+        </div>
       </div>
       <div>
         <label for="companyName">Company Name</label>
         <input id="companyName" formControlName="companyName" placeholder="FinTech Co.">
+        <div class="field-error" *ngIf="stockForm.get('companyName')?.touched && stockForm.get('companyName')?.invalid">
+          <span *ngIf="stockForm.get('companyName')?.errors?.['required']">Company name is required.</span>
+          <span *ngIf="stockForm.get('companyName')?.errors?.['maxlength']">Max 10 characters.</span>
+        </div>
       </div>
       <div>
         <label for="purchase">Purchase</label>
         <input id="purchase" type="number" formControlName="purchase">
+        <div class="field-error" *ngIf="stockForm.get('purchase')?.touched && stockForm.get('purchase')?.invalid">
+          <span *ngIf="stockForm.get('purchase')?.errors?.['required']">Purchase is required.</span>
+          <span *ngIf="stockForm.get('purchase')?.errors?.['min']">Minimum is 1.</span>
+          <span *ngIf="stockForm.get('purchase')?.errors?.['max']">Maximum is 1,000,000,000.</span>
+        </div>
       </div>
       <div>
         <label for="lastDiv">Last Dividend</label>
         <input id="lastDiv" type="number" formControlName="lastDiv">
+        <div class="field-error" *ngIf="stockForm.get('lastDiv')?.touched && stockForm.get('lastDiv')?.invalid">
+          <span *ngIf="stockForm.get('lastDiv')?.errors?.['required']">Last dividend is required.</span>
+          <span *ngIf="stockForm.get('lastDiv')?.errors?.['min']">Minimum is 0.001.</span>
+          <span *ngIf="stockForm.get('lastDiv')?.errors?.['max']">Maximum is 100.</span>
+        </div>
       </div>
       <div>
         <label for="industry">Industry</label>
         <input id="industry" formControlName="industry" placeholder="Payments">
+        <div class="field-error" *ngIf="stockForm.get('industry')?.touched && stockForm.get('industry')?.invalid">
+          <span *ngIf="stockForm.get('industry')?.errors?.['required']">Industry is required.</span>
+          <span *ngIf="stockForm.get('industry')?.errors?.['maxlength']">Max 10 characters.</span>
+        </div>
       </div>
       <div>
         <label for="marketCapacity">Market Capacity</label>
         <input id="marketCapacity" type="number" formControlName="marketCapacity">
+        <div class="field-error" *ngIf="stockForm.get('marketCapacity')?.touched && stockForm.get('marketCapacity')?.invalid">
+          <span *ngIf="stockForm.get('marketCapacity')?.errors?.['required']">Market capacity is required.</span>
+          <span *ngIf="stockForm.get('marketCapacity')?.errors?.['min']">Minimum is 1.</span>
+          <span *ngIf="stockForm.get('marketCapacity')?.errors?.['max']">Maximum is 5,000,000,000.</span>
+        </div>
       </div>
       <div class="form-actions">
         <button class="btn" type="submit" [disabled]="isLoading">
