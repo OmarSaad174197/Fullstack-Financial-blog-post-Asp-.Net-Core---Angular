@@ -1,0 +1,28 @@
+.comment-list {
+  display: grid;
+  gap: var(--space-2);
+  margin-top: var(--space-3);
+}
+
+.comment-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: var(--space-3);
+  padding: var(--space-3);
+  border-radius: var(--radius-md);
+  border: 1px solid var(--border);
+  background: var(--card-2);
+  color: inherit;
+  cursor: pointer;
+  text-align: left;
+}
+
+.comment-row:hover {
+  border-color: var(--accent);
+}
+
+.comment-title {
+  margin: 0;
+  font-family: var(--font-display);
+}

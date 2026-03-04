@@ -1,0 +1,40 @@
+<section class="section">
+  <div class="container">
+    <h1 class="section-title">{{ isEdit ? 'Edit Stock' : 'Add Stock' }}</h1>
+    <p class="muted">Use this form to create or update a stock profile.</p>
+
+    <form class="card form" [formGroup]="stockForm" (ngSubmit)="submit()">
+      <div>
+        <label for="symbol">Symbol</label>
+        <input id="symbol" formControlName="symbol" placeholder="FTEK">
+      </div>
+      <div>
+        <label for="companyName">Company Name</label>
+        <input id="companyName" formControlName="companyName" placeholder="FinTech Co.">
+      </div>
+      <div>
+        <label for="purchase">Purchase</label>
+        <input id="purchase" type="number" formControlName="purchase">
+      </div>
+      <div>
+        <label for="lastDiv">Last Dividend</label>
+        <input id="lastDiv" type="number" formControlName="lastDiv">
+      </div>
+      <div>
+        <label for="industry">Industry</label>
+        <input id="industry" formControlName="industry" placeholder="Payments">
+      </div>
+      <div>
+        <label for="marketCapacity">Market Capacity</label>
+        <input id="marketCapacity" type="number" formControlName="marketCapacity">
+      </div>
+      <div class="form-actions">
+        <button class="btn" type="submit" [disabled]="isLoading">
+          {{ isEdit ? 'Update' : 'Create' }}
+        </button>
+        <span class="muted" *ngIf="isLoading">Saving...</span>
+      </div>
+      <p class="muted" *ngIf="error">{{ error }}</p>
+    </form>
+  </div>
+</section>

@@ -1,0 +1,43 @@
+<section class="section auth">
+  <div class="container auth__grid">
+    <div class="card auth__panel">
+      <h1 class="section-title">Welcome Back</h1>
+      <p class="muted">Sign in to manage your portfolio and comments.</p>
+
+      <form class="form" [formGroup]="loginForm" (ngSubmit)="submit()">
+        <div>
+          <label for="userName">Username</label>
+          <input id="userName" formControlName="userName" placeholder="username">
+        </div>
+        <div>
+          <label for="email">Email</label>
+          <input id="email" type="email" formControlName="email" placeholder="name@company.com">
+        </div>
+        <div>
+          <label for="password">Password</label>
+          <input id="password" type="password" formControlName="password" placeholder="••••••••">
+        </div>
+        <div class="form-actions">
+          <button class="btn" type="submit" [disabled]="isLoading">Login</button>
+          <span class="muted" *ngIf="isLoading">Authenticating...</span>
+        </div>
+        <p class="muted" *ngIf="error">{{ error }}</p>
+      </form>
+
+      <p class="muted">
+        New here? <a routerLink="/auth/register">Create an account</a>.
+      </p>
+    </div>
+
+    <div class="auth__aside">
+      <div class="card">
+        <h3>Access everything</h3>
+        <p class="muted">Login to add comments, create stocks, and track your portfolio.</p>
+      </div>
+      <div class="card">
+        <h3>Secure access</h3>
+        <p class="muted">Your account is protected with modern security standards.</p>
+      </div>
+    </div>
+  </div>
+</section>

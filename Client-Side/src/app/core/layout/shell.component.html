@@ -1,0 +1,97 @@
+<div class="shell">
+  <header class="shell__header">
+    <div class="container shell__nav">
+      <a class="brand" routerLink="/">
+        <span class="brand__mark">FinEdge</span>
+        <span class="brand__tag">FinTech BlogPost</span>
+      </a>
+
+      <nav class="nav">
+        <a routerLink="/" routerLinkActive="is-active" [routerLinkActiveOptions]="{ exact: true }">Home</a>
+        <a routerLink="/stocks" routerLinkActive="is-active">Stocks</a>
+        <a routerLink="/comments" routerLinkActive="is-active">Comments</a>
+        <a routerLink="/portfolio" routerLinkActive="is-active">Portfolio</a>
+      </nav>
+
+      <div class="actions" *ngIf="user$ | async as user; else loggedOut">
+        <button class="btn btn-ghost theme-toggle" type="button" (click)="toggleTheme()">
+          <span class="sr-only" *ngIf="theme$ | async as theme">
+            {{ theme === 'dark' ? 'Switch to light mode' : 'Switch to dark mode' }}
+          </span>
+          <svg
+            *ngIf="theme$ | async as theme"
+            [attr.viewBox]="theme === 'dark' ? '0 0 24 24' : '0 0 24 24'"
+            aria-hidden="true"
+            class="theme-icon"
+          >
+            <path
+              *ngIf="theme === 'dark'"
+              fill="currentColor"
+              d="M12 3a1 1 0 0 0-1 1v2a1 1 0 1 0 2 0V4a1 1 0 0 0-1-1Zm0 14a5 5 0 1 1 0-10 5 5 0 0 1 0 10Zm7-4a1 1 0 0 0 0-2h-2a1 1 0 1 0 0 2h2ZM7 12a1 1 0 0 0-1-1H4a1 1 0 1 0 0 2h2a1 1 0 0 0 1-1Zm9.95 6.536a1 1 0 0 0-1.414 0l-1.415 1.414a1 1 0 1 0 1.415 1.414l1.414-1.414a1 1 0 0 0 0-1.414ZM6.464 6.05a1 1 0 0 0 0-1.414L5.05 3.222A1 1 0 1 0 3.636 4.636L5.05 6.05a1 1 0 0 0 1.414 0Zm11.314-.001a1 1 0 0 0 1.414 0l1.414-1.414A1 1 0 1 0 19.192 3.22l-1.414 1.414a1 1 0 0 0 0 1.414ZM6.05 19.192a1 1 0 0 0 0-1.414L4.636 16.364A1 1 0 1 0 3.222 17.778l1.414 1.414a1 1 0 0 0 1.414 0Z"
+            />
+            <path
+              *ngIf="theme !== 'dark'"
+              fill="currentColor"
+              d="M12.74 3.03a1 1 0 0 0-.98 1.204A7 7 0 0 1 5.766 13.2a1 1 0 0 0 .68 1.812 9 9 0 0 0 10.53-10.53 1 1 0 0 0-1.236-.98Z"
+            />
+          </svg>
+        </button>
+        <span class="pill">Hi, {{ user.userName }}</span>
+        <a class="btn btn-secondary" routerLink="/stocks/new">Add Stock</a>
+        <button class="btn btn-ghost" type="button" (click)="logout()">Logout</button>
+      </div>
+
+      <ng-template #loggedOut>
+        <div class="actions">
+          <button class="btn btn-ghost theme-toggle" type="button" (click)="toggleTheme()">
+            <span class="sr-only" *ngIf="theme$ | async as theme">
+              {{ theme === 'dark' ? 'Switch to light mode' : 'Switch to dark mode' }}
+            </span>
+            <svg
+              *ngIf="theme$ | async as theme"
+              [attr.viewBox]="theme === 'dark' ? '0 0 24 24' : '0 0 24 24'"
+              aria-hidden="true"
+              class="theme-icon"
+            >
+              <path
+                *ngIf="theme === 'dark'"
+                fill="currentColor"
+                d="M12 3a1 1 0 0 0-1 1v2a1 1 0 1 0 2 0V4a1 1 0 0 0-1-1Zm0 14a5 5 0 1 1 0-10 5 5 0 0 1 0 10Zm7-4a1 1 0 0 0 0-2h-2a1 1 0 1 0 0 2h2ZM7 12a1 1 0 0 0-1-1H4a1 1 0 1 0 0 2h2a1 1 0 0 0 1-1Zm9.95 6.536a1 1 0 0 0-1.414 0l-1.415 1.414a1 1 0 1 0 1.415 1.414l1.414-1.414a1 1 0 0 0 0-1.414ZM6.464 6.05a1 1 0 0 0 0-1.414L5.05 3.222A1 1 0 1 0 3.636 4.636L5.05 6.05a1 1 0 0 0 1.414 0Zm11.314-.001a1 1 0 0 0 1.414 0l1.414-1.414A1 1 0 1 0 19.192 3.22l-1.414 1.414a1 1 0 0 0 0 1.414ZM6.05 19.192a1 1 0 0 0 0-1.414L4.636 16.364A1 1 0 1 0 3.222 17.778l1.414 1.414a1 1 0 0 0 1.414 0Z"
+              />
+              <path
+                *ngIf="theme !== 'dark'"
+                fill="currentColor"
+                d="M12.74 3.03a1 1 0 0 0-.98 1.204A7 7 0 0 1 5.766 13.2a1 1 0 0 0 .68 1.812 9 9 0 0 0 10.53-10.53 1 1 0 0 0-1.236-.98Z"
+              />
+            </svg>
+          </button>
+          <a class="btn btn-secondary" routerLink="/auth/login">Login</a>
+          <a class="btn" routerLink="/auth/register">Create Account</a>
+        </div>
+      </ng-template>
+    </div>
+  </header>
+
+  <main class="shell__main">
+    <router-outlet />
+  </main>
+
+  <footer class="shell__footer">
+    <div class="container footer-grid">
+      <div>
+        <div class="brand__mark">FinEdge</div>
+        <p class="muted">Modern fintech insights for decisive portfolios.</p>
+      </div>
+      <div>
+        <p class="footer-title">Explore</p>
+        <a routerLink="/stocks">Stock Explorer</a>
+        <a routerLink="/portfolio">Your Portfolio</a>
+      </div>
+      <div>
+        <p class="footer-title">Account</p>
+        <a routerLink="/auth/login">Login</a>
+        <a routerLink="/auth/register">Register</a>
+      </div>
+    </div>
+  </footer>
+</div>

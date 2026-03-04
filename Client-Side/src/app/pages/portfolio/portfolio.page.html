@@ -1,0 +1,38 @@
+<section class="section">
+  <div class="container">
+    <h1 class="section-title">Your Portfolio</h1>
+    <p class="muted">Manage the symbols tied to your account.</p>
+
+    <form class="card form portfolio-form" [formGroup]="addForm" (ngSubmit)="addSymbol()">
+      <div>
+        <label for="symbol">Add Symbol</label>
+        <input id="symbol" formControlName="symbol" placeholder="TSLA">
+      </div>
+      <div class="form-actions">
+        <button class="btn" type="submit">Add</button>
+      </div>
+    </form>
+
+    <div class="divider"></div>
+
+    <div *ngIf="isLoading" class="card">Loading portfolio...</div>
+    <div *ngIf="error" class="card">{{ error }}</div>
+
+    <div class="grid grid-3" *ngIf="!isLoading && portfolio.length">
+      <article class="card" *ngFor="let item of portfolio">
+        <h3>{{ item.symbol }}</h3>
+        <p class="muted">{{ item.companyName }}</p>
+        <p class="muted">Purchase: {{ item.purchase | number:'1.0-2' }}</p>
+        <p class="muted">Dividend: {{ item.lastDiv | number:'1.0-2' }}</p>
+        <div class="divider"></div>
+        <button class="btn btn-ghost" type="button" (click)="removeSymbol(item.symbol)">
+          Remove
+        </button>
+      </article>
+    </div>
+
+    <div *ngIf="!isLoading && !portfolio.length" class="card">
+      No portfolio holdings yet. Add a symbol to get started.
+    </div>
+  </div>
+</section>
