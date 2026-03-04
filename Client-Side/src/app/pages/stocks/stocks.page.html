@@ -1,7 +1,12 @@
 <section class="section">
   <div class="container">
-    <h1 class="section-title">Stock Explorer</h1>
-    <p class="muted">Filter by symbol or company, and sort by symbol.</p>
+    <div class="section-head">
+      <div>
+        <h1 class="section-title">Stock Explorer</h1>
+        <p class="muted">Filter by symbol or company, and sort by symbol.</p>
+      </div>
+      <a class="btn" routerLink="/stocks/new" *ngIf="isAuthenticated">Add Stock</a>
+    </div>
 
     <form class="card form filters" [formGroup]="filterForm" (ngSubmit)="applyFilters()">
       <div>
@@ -42,6 +47,8 @@
     <div *ngIf="isLoading" class="card">Loading stocks...</div>
     <div *ngIf="error" class="card">{{ error }}</div>
 
+    <p class="muted" *ngIf="actionMessage">{{ actionMessage }}</p>
+
     <div class="grid grid-3" *ngIf="!isLoading && stocks.length">
       <article class="card stock-card" *ngFor="let stock of stocks">
         <div class="stock-card__header">
@@ -55,7 +62,15 @@
         <p class="muted">Dividend: {{ stock.lastDiv | number:'1.0-2' }}</p>
         <p class="muted">Market Cap: {{ stock.marketCapacity | number }}</p>
         <div class="divider"></div>
-        <a class="btn btn-secondary" [routerLink]="['/stocks', stock.id]">View Details</a>
+        <div class="stock-actions">
+          <a class="btn btn-secondary" [routerLink]="['/stocks', stock.id]">View</a>
+          <a class="btn btn-ghost" [routerLink]="['/stocks', stock.id, 'edit']" *ngIf="isAuthenticated">
+            Edit
+          </a>
+          <button class="btn btn-ghost" type="button" *ngIf="isAuthenticated" (click)="deleteStock(stock)">
+            Delete
+          </button>
+        </div>
       </article>
     </div>
 

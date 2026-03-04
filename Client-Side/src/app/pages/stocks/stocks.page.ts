@@ -4,6 +4,7 @@ import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { RouterLink } from '@angular/router';
 import { StockService } from '../../services/stock.service';
 import { StockDto, StockQuery } from '../../models/stock.model';
+import { AuthService } from '../../services/auth.service';
 
 @Component({
   selector: 'app-stocks-page',
@@ -16,11 +17,16 @@ export class StocksPageComponent implements OnInit {
   stocks: StockDto[] = [];
   isLoading = false;
   error = '';
+  actionMessage = '';
   pageNumber = 1;
 
   filterForm: FormGroup;
 
-  constructor(private readonly fb: FormBuilder, private readonly stockService: StockService) {
+  constructor(
+    private readonly fb: FormBuilder,
+    private readonly stockService: StockService,
+    private readonly authService: AuthService
+  ) {
     this.filterForm = this.fb.group({
       symbol: [''],
       companyName: [''],
@@ -30,6 +36,10 @@ export class StocksPageComponent implements OnInit {
     });
   }
 
+  get isAuthenticated(): boolean {
+    return this.authService.isAuthenticated();
+  }
+
   ngOnInit(): void {
     this.loadStocks();
   }
@@ -37,6 +47,7 @@ export class StocksPageComponent implements OnInit {
   loadStocks(): void {
     this.isLoading = true;
     this.error = '';
+    this.actionMessage = '';
     const query: StockQuery = {
       symbol: this.filterForm.value.symbol || undefined,
       companyName: this.filterForm.value.companyName || undefined,
@@ -72,5 +83,20 @@ export class StocksPageComponent implements OnInit {
     if (this.pageNumber === 1) return;
     this.pageNumber -= 1;
     this.loadStocks();
+  }
+
+  deleteStock(stock: StockDto): void {
+    if (!this.isAuthenticated) return;
+    const confirmed = window.confirm(`Delete ${stock.symbol}?`);
+    if (!confirmed) return;
+    this.stockService.delete(stock.id).subscribe({
+      next: () => {
+        this.actionMessage = `${stock.symbol} removed.`;
+        this.loadStocks();
+      },
+      error: () => {
+        this.actionMessage = 'Unable to delete stock right now.';
+      }
+    });
   }
 }
