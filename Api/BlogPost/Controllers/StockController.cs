@@ -46,7 +46,7 @@ public class StockController: ControllerBase
         if (!ModelState.IsValid) return BadRequest(ModelState);
         // Otherwise
         var stock = await _stockRepository.GetByIdAsync(id);
-        if (stock == null)  NotFound();
+        if (stock == null) return NotFound();
         return Ok(stock.ToStockDto());
     }
 
@@ -70,7 +70,7 @@ public class StockController: ControllerBase
         // Otherwise
         var stockModel = await _stockRepository.UpdateAsync(id, updateStockDto);
         //Validate if the stock exist
-        if (stockModel == null)  NotFound();
+        if (stockModel == null) return NotFound();
         return Ok(stockModel.ToStockDto());
     }
 
