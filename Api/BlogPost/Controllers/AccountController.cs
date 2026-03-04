@@ -3,7 +3,6 @@ using BlogPost.Entities;
 using BlogPost.Services;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 
 namespace BlogPost.Controllers;
 [Route("api/[controller]")]
@@ -78,8 +77,7 @@ public class AccountController : ControllerBase
         
         // Check if the user exist or not
         // var existingUser = await _userManager.FindByEmailAsync(loginDto.Email.ToLower());
-        var user = await _userManager.Users
-            .FirstOrDefaultAsync(e => e.UserName == loginDto.UserName.ToLower());
+        var user = await _userManager.FindByNameAsync(loginDto.UserName);
         if (user == null) return Unauthorized("Invalid username, Enter a valid username");
         
         // Check the password
@@ -91,8 +89,8 @@ public class AccountController : ControllerBase
         return Ok(
             new NewUserDto()
             {
-                UserName = loginDto.UserName,
-                Email = loginDto.Email,
+                UserName = user.UserName,
+                Email = user.Email,
                 Token = _tokenService.CreateToken(user)
             }
         );

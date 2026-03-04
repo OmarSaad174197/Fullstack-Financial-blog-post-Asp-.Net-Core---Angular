@@ -28,7 +28,9 @@ public class PortfolioController : ControllerBase
     public async Task<IActionResult> GetUserPortfolio()
     {
         var username = User.GetUSerName();
+        if (string.IsNullOrWhiteSpace(username)) return Unauthorized("User claim not found");
         var appUser = await _userManager.FindByNameAsync(username);
+        if (appUser == null) return Unauthorized("User not found");
         var userPortfolio = await _portfolioRepository.GetUSerPortfolio(appUser);
         return Ok(userPortfolio);
     }
@@ -38,7 +40,9 @@ public class PortfolioController : ControllerBase
     public async Task<IActionResult> AddPortfolio(string symbol)
     {
         var username = User.GetUSerName();
+        if (string.IsNullOrWhiteSpace(username)) return Unauthorized("User claim not found");
         var appUser = await _userManager.FindByNameAsync(username);
+        if (appUser == null) return Unauthorized("User not found");
         var stock = await _stockRepository.GetBySymbolAsync(symbol);
         
         // validate if stock is not exist
@@ -72,7 +76,9 @@ public class PortfolioController : ControllerBase
     public async Task<IActionResult> DeletePortfolio(string symbol)
     {
         var username = User.GetUSerName();
+        if (string.IsNullOrWhiteSpace(username)) return Unauthorized("User claim not found");
         var appUser = await _userManager.FindByNameAsync(username);
+        if (appUser == null) return Unauthorized("User not found");
         
         var userPortfolio = await _portfolioRepository.GetUSerPortfolio(appUser);
         if (userPortfolio == null) return BadRequest("Portfolio not found");

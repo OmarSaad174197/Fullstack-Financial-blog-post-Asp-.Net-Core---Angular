@@ -3,6 +3,7 @@ using BlogPost.Entities;
 using BlogPost.Extesions;
 using BlogPost.Interfaces;
 using BlogPost.Mappings;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 
@@ -53,6 +54,7 @@ public class CommentController : ControllerBase
 
     [HttpPost]
     [Route("{stockId:int}")]
+    [Authorize]
     public async Task<IActionResult> AddComment([FromRoute] int stockId, CreateCommentDto commentDto)
     {
         if (!ModelState.IsValid) return BadRequest(ModelState);
@@ -60,7 +62,9 @@ public class CommentController : ControllerBase
         if(!await _stockRepo.StockExists(stockId)) return BadRequest("Stock does not exist");
 
         var username = User.GetUSerName();
+        if (string.IsNullOrWhiteSpace(username)) return Unauthorized("User claim not found");
         var appUser = await _userManager.FindByNameAsync(username);
+        if (appUser == null) return Unauthorized("User not found");
         
         // These are for add a comment
         // Mapping comment into regular comment
@@ -73,6 +77,7 @@ public class CommentController : ControllerBase
 
     [HttpPut]
     [Route("{id:int}")]
+    [Authorize]
     public async Task<IActionResult> UpdateComment([FromRoute] int id, [FromBody] UpdateCommentDto commentDto)
     {
         // Validation for ModelState(it comes from controller base) (all data annotations in dtos)
@@ -86,6 +91,7 @@ public class CommentController : ControllerBase
 
     [HttpDelete]
     [Route("{id:int}")]
+    [Authorize]
     public async Task<IActionResult> DeleteComment([FromRoute] int id)
     {
         // Validation for ModelState(it comes from controller base) (all data annotations in dtos)
