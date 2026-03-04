@@ -1,0 +1,14 @@
+# Build artifacts
+**/bin/
+**/obj/
+.vs/
+*.csproj.user
+*.suo
+*.user
+*.cache
+*.log
+
+# Node / frontend
+**/node_modules/
+**/dist/
+**/.angular/
