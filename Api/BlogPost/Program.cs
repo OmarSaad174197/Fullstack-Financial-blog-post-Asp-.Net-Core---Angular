@@ -64,7 +64,7 @@ builder.Services.AddCors(options =>
     options.AddPolicy("Production", policy =>
     {
         policy.WithOrigins(
-            "https://your-production-angular-app.com"
+            "https://finedge-theta.vercel.app"
         )
         .AllowAnyHeader()
         .AllowAnyMethod()
@@ -118,26 +118,6 @@ builder.Services.AddControllers().AddNewtonsoftJson(options =>
 
 var app = builder.Build();
 
-// AUTOMATIC DATABASE MIGRATION.
-// This runs all pending migrations on every app start
-// Safe to run multiple times - won't re-apply completed migrations
-using (var scope = app.Services.CreateScope())
-{
-    var dbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
-    var logger = scope.ServiceProvider.GetRequiredService<ILogger<Program>>();
-
-    try
-    {
-        logger.LogInformation("Applying database migrations...");
-        dbContext.Database.Migrate();
-        logger.LogInformation("Database migrations applied successfully!");
-    }
-    catch (Exception ex)
-    {
-        logger.LogError(ex, "An error occurred while applying migrations");
-    }
-}
-
 // Add security headers in production
 if (!app.Environment.IsDevelopment())
 {
@@ -156,6 +136,26 @@ if (app.Environment.IsDevelopment())
     app.MapOpenApi();
     app.UseSwagger();
     app.UseSwaggerUI();
+}
+
+// AUTOMATIC DATABASE MIGRATION.
+// This runs all pending migrations on every app start
+// Safe to run multiple times - won't re-apply completed migrations
+using (var scope = app.Services.CreateScope())
+{
+    var dbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
+    var logger = scope.ServiceProvider.GetRequiredService<ILogger<Program>>();
+
+    try
+    {
+        logger.LogInformation("Applying database migrations...");
+        dbContext.Database.Migrate();
+        logger.LogInformation("Database migrations applied successfully!");
+    }
+    catch (Exception ex)
+    {
+        logger.LogError(ex, "An error occurred while applying migrations");
+    }
 }
 // Middlewares
 app.UseHttpsRedirection();
