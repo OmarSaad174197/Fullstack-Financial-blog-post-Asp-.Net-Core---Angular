@@ -13,7 +13,7 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
-// as it is .net 9 so you must define this key:
+
 builder.Services.AddOpenApi();
 builder.Services.AddSwaggerGen();
 // Configure swagger configurations
@@ -53,11 +53,22 @@ builder.Services.AddDbContext<AppDbContext>(options =>
 // Configure CORS for Angular dev server
 builder.Services.AddCors(options =>
 {
-    options.AddPolicy("Client", policy =>
+    // Define a CORS policy for development
+    options.AddPolicy("Development", policy =>
     {
         policy.WithOrigins("http://localhost:4200", "https://localhost:4200")
-            .AllowAnyHeader()
-            .AllowAnyMethod();
+              .AllowAnyHeader()
+              .AllowAnyMethod();
+    });
+    // Define a CORS policy for production (adjust origins as needed)
+    options.AddPolicy("Production", policy =>
+    {
+        policy.WithOrigins(
+            "https://your-production-angular-app.com"
+        )
+        .AllowAnyHeader()
+        .AllowAnyMethod()
+        .AllowCredentials();
     });
 });
 // Configure Identity
@@ -107,17 +118,56 @@ builder.Services.AddControllers().AddNewtonsoftJson(options =>
 
 var app = builder.Build();
 
+// AUTOMATIC DATABASE MIGRATION.
+// This runs all pending migrations on every app start
+// Safe to run multiple times - won't re-apply completed migrations
+using (var scope = app.Services.CreateScope())
+{
+    var dbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
+    var logger = scope.ServiceProvider.GetRequiredService<ILogger<Program>>();
+
+    try
+    {
+        logger.LogInformation("Applying database migrations...");
+        dbContext.Database.Migrate();
+        logger.LogInformation("Database migrations applied successfully!");
+    }
+    catch (Exception ex)
+    {
+        logger.LogError(ex, "An error occurred while applying migrations");
+    }
+}
+
+// Add security headers in production
+if (!app.Environment.IsDevelopment())
+{
+    app.Use(async (context, next) =>
+    {
+        context.Response.Headers.Append("X-Content-Type-Options", "nosniff");
+        context.Response.Headers.Append("X-Frame-Options", "DENY");
+        context.Response.Headers.Append("X-XSS-Protection", "1; mode=block");
+        await next();
+    });
+}
+
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
-    // as it is .net 9 so you must define these
     app.MapOpenApi();
     app.UseSwagger();
     app.UseSwaggerUI();
 }
 // Middlewares
 app.UseHttpsRedirection();
-app.UseCors("Client");
+// Use the appropriate CORS policy based on the environment
+if (app.Environment.IsDevelopment())
+{
+    app.UseCors("Development");
+}
+else
+{
+    app.UseCors("Production");
+}
 app.UseAuthentication();
 app.UseAuthorization();
 app.MapControllers();
