@@ -8,14 +8,28 @@
         <div>
           <label for="userName">Username</label>
           <input id="userName" formControlName="userName" placeholder="username">
+          <div class="field-error" *ngIf="loginForm.get('userName')?.touched && loginForm.get('userName')?.invalid">
+            <span *ngIf="loginForm.get('userName')?.errors?.['required']">Username is required.</span>
+          </div>
         </div>
         <div>
           <label for="email">Email</label>
           <input id="email" type="email" formControlName="email" placeholder="name@company.com">
+          <div class="field-error" *ngIf="loginForm.get('email')?.touched && loginForm.get('email')?.invalid">
+            <span *ngIf="loginForm.get('email')?.errors?.['required']">Email is required.</span>
+            <span *ngIf="loginForm.get('email')?.errors?.['email']">Enter a valid email address.</span>
+          </div>
         </div>
         <div>
           <label for="password">Password</label>
           <input id="password" type="password" formControlName="password" placeholder="••••••••">
+          <div class="field-error" *ngIf="loginForm.get('password')?.touched && loginForm.get('password')?.invalid">
+            <span *ngIf="loginForm.get('password')?.errors?.['required']">Password is required.</span>
+            <span *ngIf="loginForm.get('password')?.errors?.['minlength']">Minimum 8 characters.</span>
+            <span *ngIf="loginForm.get('password')?.errors?.['pattern']">
+              Must include uppercase, lowercase, number, and symbol.
+            </span>
+          </div>
         </div>
         <div class="form-actions">
           <button class="btn" type="submit" [disabled]="isLoading">Login</button>

@@ -20,7 +20,7 @@ export class PortfolioPageComponent implements OnInit {
 
   constructor(private readonly fb: FormBuilder, private readonly portfolioService: PortfolioService) {
     this.addForm = this.fb.group({
-      symbol: ['', [Validators.required]]
+      symbol: ['', [Validators.required, Validators.maxLength(10)]]
     });
   }
 
@@ -44,7 +44,12 @@ export class PortfolioPageComponent implements OnInit {
   }
 
   addSymbol(): void {
-    if (this.addForm.invalid) return;
+    if (this.addForm.invalid) {
+      this.error = 'Please enter a valid symbol (max 10 characters).';
+      this.addForm.markAllAsTouched();
+      return;
+    }
+    this.error = '';
     const symbol = this.addForm.value.symbol ?? '';
     this.portfolioService.add(symbol).subscribe({
       next: () => {

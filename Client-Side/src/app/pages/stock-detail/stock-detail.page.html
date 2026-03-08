@@ -55,10 +55,20 @@
           <div>
             <label for="title">Title</label>
             <input id="title" formControlName="title" placeholder="Quick insight">
+            <div class="field-error" *ngIf="commentForm.get('title')?.touched && commentForm.get('title')?.invalid">
+              <span *ngIf="commentForm.get('title')?.errors?.['required']">Title is required.</span>
+              <span *ngIf="commentForm.get('title')?.errors?.['minlength']">Minimum 5 characters.</span>
+              <span *ngIf="commentForm.get('title')?.errors?.['maxlength']">Maximum 20 characters.</span>
+            </div>
           </div>
           <div>
             <label for="content">Comment</label>
             <textarea id="content" formControlName="content" placeholder="Share your view"></textarea>
+            <div class="field-error" *ngIf="commentForm.get('content')?.touched && commentForm.get('content')?.invalid">
+              <span *ngIf="commentForm.get('content')?.errors?.['required']">Content is required.</span>
+              <span *ngIf="commentForm.get('content')?.errors?.['minlength']">Minimum 5 characters.</span>
+              <span *ngIf="commentForm.get('content')?.errors?.['maxlength']">Maximum 20 characters.</span>
+            </div>
           </div>
           <div class="form-actions">
             <button class="btn" type="submit">{{ editCommentId ? 'Update' : 'Post' }}</button>

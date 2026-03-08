@@ -24,18 +24,18 @@ export class CommentsPageComponent implements OnInit {
 
   constructor(private readonly fb: FormBuilder, private readonly commentService: CommentService) {
     this.findForm = this.fb.group({
-      id: [null, [Validators.required]]
+      id: [null, [Validators.required, Validators.min(1)]]
     });
 
     this.createForm = this.fb.group({
-      stockId: [null, [Validators.required]],
-      title: ['', [Validators.required]],
-      content: ['', [Validators.required, Validators.minLength(5)]]
+      stockId: [null, [Validators.required, Validators.min(1)]],
+      title: ['', [Validators.required, Validators.minLength(5), Validators.maxLength(20)]],
+      content: ['', [Validators.required, Validators.minLength(5), Validators.maxLength(20)]]
     });
 
     this.updateForm = this.fb.group({
-      title: ['', [Validators.required]],
-      content: ['', [Validators.required, Validators.minLength(5)]]
+      title: ['', [Validators.required, Validators.minLength(5), Validators.maxLength(20)]],
+      content: ['', [Validators.required, Validators.minLength(5), Validators.maxLength(20)]]
     });
   }
 
@@ -72,7 +72,11 @@ export class CommentsPageComponent implements OnInit {
   }
 
   findById(): void {
-    if (this.findForm.invalid) return;
+    if (this.findForm.invalid) {
+      this.actionMessage = 'Enter a valid comment id.';
+      this.findForm.markAllAsTouched();
+      return;
+    }
     const id = Number(this.findForm.value.id ?? 0);
     this.commentService.getById(id).subscribe({
       next: (comment) => {
@@ -86,7 +90,11 @@ export class CommentsPageComponent implements OnInit {
   }
 
   createComment(): void {
-    if (this.createForm.invalid) return;
+    if (this.createForm.invalid) {
+      this.actionMessage = 'Please fix the highlighted fields before creating.';
+      this.createForm.markAllAsTouched();
+      return;
+    }
     const stockId = Number(this.createForm.value.stockId ?? 0);
     const payload = {
       title: this.createForm.value.title ?? '',
@@ -106,7 +114,11 @@ export class CommentsPageComponent implements OnInit {
   }
 
   updateComment(): void {
-    if (!this.selected || this.updateForm.invalid) return;
+    if (!this.selected || this.updateForm.invalid) {
+      this.actionMessage = 'Please fix the highlighted fields before updating.';
+      this.updateForm.markAllAsTouched();
+      return;
+    }
     const payload = {
       title: this.updateForm.value.title ?? '',
       content: this.updateForm.value.content ?? ''

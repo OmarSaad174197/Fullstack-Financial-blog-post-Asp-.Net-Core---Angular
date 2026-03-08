@@ -25,12 +25,23 @@ export class AuthLoginPageComponent {
     this.loginForm = this.fb.group({
       userName: ['', [Validators.required]],
       email: ['', [Validators.required, Validators.email]],
-      password: ['', [Validators.required, Validators.minLength(6)]]
+      password: [
+        '',
+        [
+          Validators.required,
+          Validators.minLength(8),
+          Validators.pattern(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[^A-Za-z0-9]).{8,}$/)
+        ]
+      ]
     });
   }
 
   submit(): void {
-    if (this.loginForm.invalid) return;
+    if (this.loginForm.invalid) {
+      this.error = 'Please fix the highlighted fields before continuing.';
+      this.loginForm.markAllAsTouched();
+      return;
+    }
     this.isLoading = true;
     this.error = '';
 
