@@ -12,3 +12,20 @@
 **/node_modules/
 **/dist/
 **/.angular/
+# Dependencies
+node_modules/
+
+# Build output
+dist/
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# OS files
+.DS_Store
+Thumbs.db
+npm-debug.log*
+
