@@ -56,7 +56,10 @@ builder.Services.AddCors(options =>
     // Define a CORS policy for development
     options.AddPolicy("Development", policy =>
     {
-        policy.WithOrigins("http://localhost:4200", "https://localhost:4200")
+        policy.WithOrigins(
+            "http://localhost:4200", 
+            "https://localhost:4200",
+            "https://finedge-theta.vercel.app")
               .AllowAnyHeader()
               .AllowAnyMethod();
     });
