@@ -14,6 +14,7 @@ import { AuthService } from '../../services/auth.service';
 export class AuthRegisterPageComponent {
   isLoading = false;
   error = '';
+  showPassword = false;
 
   registerForm: FormGroup;
 
@@ -58,5 +59,9 @@ export class AuthRegisterPageComponent {
         this.isLoading = false;
       }
     });
+  }
+
+  togglePassword(): void {
+    this.showPassword = !this.showPassword;
   }
 }

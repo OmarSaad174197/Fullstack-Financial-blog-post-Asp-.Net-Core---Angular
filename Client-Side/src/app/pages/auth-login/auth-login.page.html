@@ -22,7 +22,31 @@
         </div>
         <div>
           <label for="password">Password</label>
-          <input id="password" type="password" formControlName="password" placeholder="••••••••">
+          <div class="password-field">
+            <input
+              id="password"
+              [type]="showPassword ? 'text' : 'password'"
+              formControlName="password"
+              placeholder="••••••••"
+            >
+            <button
+              class="password-toggle"
+              type="button"
+              (click)="togglePassword()"
+              [attr.aria-label]="showPassword ? 'Hide password' : 'Show password'"
+            >
+              <svg *ngIf="!showPassword" viewBox="0 0 24 24" aria-hidden="true">
+                <path d="M2.458 12C3.732 7.943 7.523 5 12 5s8.268 2.943 9.542 7c-1.274 4.057-5.065 7-9.542 7s-8.268-2.943-9.542-7z" />
+                <circle cx="12" cy="12" r="3.25" />
+              </svg>
+              <svg *ngIf="showPassword" viewBox="0 0 24 24" aria-hidden="true">
+                <path d="M3 3l18 18" />
+                <path d="M10.477 10.49a3.5 3.5 0 014.948 4.95" />
+                <path d="M9.88 5.088A10.94 10.94 0 0112 5c4.477 0 8.268 2.943 9.542 7a10.91 10.91 0 01-4.199 5.333" />
+                <path d="M6.124 6.126A10.9 10.9 0 002.458 12c1.274 4.057 5.065 7 9.542 7 1.248 0 2.438-.192 3.541-.548" />
+              </svg>
+            </button>
+          </div>
           <div class="field-error" *ngIf="loginForm.get('password')?.touched && loginForm.get('password')?.invalid">
             <span *ngIf="loginForm.get('password')?.errors?.['required']">Password is required.</span>
             <span *ngIf="loginForm.get('password')?.errors?.['minlength']">Minimum 8 characters.</span>

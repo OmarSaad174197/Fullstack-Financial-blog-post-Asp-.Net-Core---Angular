@@ -186,6 +186,41 @@ img {
   font-family: var(--font-display);
 }
 
+.password-field {
+  position: relative;
+  display: grid;
+}
+
+.password-field input {
+  padding-right: 48px;
+}
+
+.password-toggle {
+  position: absolute;
+  right: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  border: none;
+  background: transparent;
+  color: var(--text-2);
+  padding: 4px;
+  cursor: pointer;
+}
+
+.password-toggle:hover {
+  color: var(--text-0);
+}
+
+.password-toggle svg {
+  width: 20px;
+  height: 20px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.6;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
 .form textarea {
   min-height: 120px;
   resize: vertical;
