@@ -10,6 +10,7 @@ using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 
 var builder = WebApplication.CreateBuilder(args);
+
 // Add services to the container.
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
@@ -50,20 +51,15 @@ builder.Services.AddDbContext<AppDbContext>(options =>
 {
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
 });
-// Configure CORS for Angular dev server
+
+// Configure CORS - SINGLE POLICY THAT WORKS EVERYWHERE
 builder.Services.AddCors(options =>
 {
-    // Define a CORS policy for development
-    options.AddPolicy("Development", policy =>
-    {
-        policy.WithOrigins("http://localhost:4200", "https://localhost:4200")
-              .AllowAnyHeader()
-              .AllowAnyMethod();
-    });
-    // Define a CORS policy for production (adjust origins as needed)
-    options.AddPolicy("Production", policy =>
+    options.AddPolicy("AllowAll", policy =>
     {
         policy.WithOrigins(
+            "http://localhost:4200",
+            "https://localhost:4200",
             "https://finedge-theta.vercel.app"
         )
         .AllowAnyHeader()
@@ -71,6 +67,7 @@ builder.Services.AddCors(options =>
         .AllowCredentials();
     });
 });
+
 // Configure Identity
 builder.Services.AddIdentity<AppUser, IdentityRole>(options =>
 {
@@ -138,9 +135,7 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
-// AUTOMATIC DATABASE MIGRATION.
-// This runs all pending migrations on every app start
-// Safe to run multiple times - won't re-apply completed migrations
+// AUTOMATIC DATABASE MIGRATION
 using (var scope = app.Services.CreateScope())
 {
     var dbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
@@ -157,18 +152,15 @@ using (var scope = app.Services.CreateScope())
         logger.LogError(ex, "An error occurred while applying migrations");
     }
 }
+
 // Middlewares
 app.UseHttpsRedirection();
-// Use the appropriate CORS policy based on the environment
-if (app.Environment.IsDevelopment())
-{
-    app.UseCors("Development");
-}
-else
-{
-    app.UseCors("Production");
-}
+
+// CORS - USE THE SINGLE POLICY (no environment check!)
+app.UseCors("AllowAll");
+
 app.UseAuthentication();
 app.UseAuthorization();
 app.MapControllers();
+
 app.Run();
